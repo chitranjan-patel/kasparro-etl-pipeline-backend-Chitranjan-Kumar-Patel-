@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: etluser
+      POSTGRES_PASSWORD: etlpass
+      POSTGRES_DB: etldb
+    ports:
+      - "5432:5432"
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://etluser:etlpass@db:5432/etldb
+      API_SOURCE_URL: https://jsonplaceholder.typicode.com/todos
+      API_KEY: demo-key
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+  etl:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://etluser:etlpass@db:5432/etldb
+      API_SOURCE_URL: https://jsonplaceholder.typicode.com/todos
+      API_KEY: demo-key
+    depends_on:
+      - db
+    command: ["python", "-m", "app.ingestion.etl_runner"]
