@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: kasparro-backend
+    env: docker
+    region: singapore
+    plan: free
+    branch: main
+    numInstances: 1
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./etl.db
+      - key: API_SOURCE_URL
+        value: https://api.coingecko.com/api/v3/coins/markets
+      - key: API_KEY
+        generateValue: true
