@@ -40,7 +40,7 @@ def fetch_api_data(last_external_id: int | None = None) -> list[dict[str, Any]]:
     items: list[dict[str, Any]] = resp.json()
 
     if last_external_id is not None:
-        items = [item for item in items if int(item.get("id", 0) or 0) > last_external_id]
+        pass # items = [item for item in items if int(item.get("id", 0) or 0) > last_external_id]
 
     return items
 

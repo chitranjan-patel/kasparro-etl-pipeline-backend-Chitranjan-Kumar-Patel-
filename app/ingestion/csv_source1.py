@@ -43,7 +43,7 @@ def transform_csv1_to_unified(rows: Iterable[dict]) -> list[UnifiedRecordCreate]
                 source="csv1",
                 external_id=str(row["id"]),
                 name=row.get("name", ""),
-                value=int(row.get("value", 0)),
+                value=int(float(row.get("value", 0))),
                 timestamp=__import__("datetime").datetime.fromisoformat(row["timestamp"]),
             )
         )
